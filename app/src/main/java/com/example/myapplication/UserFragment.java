@@ -115,19 +115,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
         mActivity = (Activity) context;
     }
 
-    public void checkLogin() {
-        SharedPreferences sp = mActivity.getSharedPreferences("isLogin", MODE_PRIVATE);
-        if (sp.getBoolean("isLogin", false) == false) {
-            rl_login.setVisibility(View.VISIBLE);
-            ivHead.setVisibility(View.GONE);
-            tv_name.setVisibility(View.GONE);
-        } else {
-            rl_login.setVisibility(View.GONE);
-            ivHead.setVisibility(View.VISIBLE);
-            tv_name.setVisibility(View.VISIBLE);
-            tv_name.setText(sp.getString("name", ""));
-        }
-    }
+
 
 
 }

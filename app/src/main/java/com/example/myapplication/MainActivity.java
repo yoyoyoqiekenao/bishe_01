@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             switch (msg.what) {
                 case 1:
                     viewPager.setCurrentItem(0);
-                    UserFragment userFragment = new UserFragment();
-                    userFragment.checkLogin();
+
+
                     break;
                 default:
             }
