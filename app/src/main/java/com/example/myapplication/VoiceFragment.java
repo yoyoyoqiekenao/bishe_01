@@ -1,5 +1,9 @@
 package com.example.myapplication;
 
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,12 +18,17 @@ import androidx.fragment.app.Fragment;
 
 import com.xw.repo.BubbleSeekBar;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class VoiceFragment extends Fragment implements View.OnClickListener {
 
     private ImageView mIvPower, iv_delete, iv_add;
     private BubbleSeekBar bubbleSeekBar;
     private boolean isClick = false;
     private int mProgress = 0;
+    private SoundPool mSoundPool;
+    private HashMap<Integer, Integer> soundId = new HashMap<>();
 
     @Nullable
     @Override
@@ -29,6 +38,8 @@ public class VoiceFragment extends Fragment implements View.OnClickListener {
         bubbleSeekBar = view.findViewById(R.id.seekBar);
         iv_delete = view.findViewById(R.id.iv_delete);
         iv_add = view.findViewById(R.id.iv_add);
+
+        initSoundPool();
 
         bubbleSeekBar.setProgress(0);
         bubbleSeekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
@@ -40,6 +51,11 @@ public class VoiceFragment extends Fragment implements View.OnClickListener {
             @Override
             public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
                 mProgress = progress;
+                if (progress == 0) {
+                    mSoundPool.play(soundId.get(3), 1, 1, 0, 0, 1);
+                } else if (progress == 100) {
+                    mSoundPool.play(soundId.get(4), 1, 1, 0, 0, 1);
+                }
             }
 
             @Override
@@ -54,6 +70,24 @@ public class VoiceFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    private void initSoundPool() {
+        if (Build.VERSION.SDK_INT >= 21) {
+            SoundPool.Builder builder = new SoundPool.Builder();
+            //传入音频数量
+            builder.setMaxStreams(1);
+            AudioAttributes.Builder attBuilder = new AudioAttributes.Builder();
+            attBuilder.setLegacyStreamType(AudioManager.STREAM_MUSIC);
+            builder.setAudioAttributes(attBuilder.build());
+            mSoundPool = builder.build();
+        } else {
+            mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 5);
+        }
+        soundId.put(1, mSoundPool.load(getContext(), R.raw.close, 1));
+        soundId.put(2, mSoundPool.load(getContext(), R.raw.open, 1));
+        soundId.put(3, mSoundPool.load(getContext(), R.raw.max, 1));
+        soundId.put(4, mSoundPool.load(getContext(), R.raw.min, 1));
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -61,9 +95,11 @@ public class VoiceFragment extends Fragment implements View.OnClickListener {
                 if (isClick) {
                     isClick = false;
                     mIvPower.setImageResource(R.mipmap.iv_power_close);
+                    mSoundPool.play(soundId.get(1), 1, 1, 0, 0, 1);
                 } else {
                     isClick = true;
                     mIvPower.setImageResource(R.mipmap.iv_power_open);
+                    mSoundPool.play(soundId.get(2), 1, 1, 0, 0, 1);
                 }
                 break;
             case R.id.iv_delete:
@@ -83,6 +119,14 @@ public class VoiceFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             default:
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mSoundPool != null) {
+            mSoundPool.release();
         }
     }
 }
