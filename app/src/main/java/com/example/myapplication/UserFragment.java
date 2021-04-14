@@ -27,6 +27,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.security.PrivateKey;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -78,6 +80,7 @@ public class UserFragment extends Fragment implements View.OnClickListener, Popu
                     Toast.makeText(getContext(), "请输入密码", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                EventBus.getDefault().post(new MessageEvent(true));
 
                 ivHead.setVisibility(View.VISIBLE);
                 tv_name.setVisibility(View.VISIBLE);
@@ -89,6 +92,8 @@ public class UserFragment extends Fragment implements View.OnClickListener, Popu
                 editor.putBoolean("isLogin", true);
                 editor.putString("name", ed_username.getText().toString());
                 editor.commit();
+
+
                 break;
             case R.id.ll_qq:
                 backgroundAlpha(0.5f);
@@ -105,12 +110,14 @@ public class UserFragment extends Fragment implements View.OnClickListener, Popu
                     editor1.putBoolean("isLogin", true);
                     editor1.putString("name", "QQ");
                     editor1.commit();
+                    EventBus.getDefault().post(new MessageEvent(true));
                 } else if (1 == mType) {
                     SharedPreferences sp1 = getContext().getSharedPreferences("isLogin", MODE_PRIVATE);
                     SharedPreferences.Editor editor1 = sp1.edit();
                     editor1.putBoolean("isLogin", true);
                     editor1.putString("name", "WX");
                     editor1.commit();
+                    EventBus.getDefault().post(new MessageEvent(true));
                 }
                 mPop.dismiss();
                 ivHead.setVisibility(View.VISIBLE);

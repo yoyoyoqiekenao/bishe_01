@@ -1,10 +1,12 @@
 package com.example.myapplication;
 
+import android.app.Service;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -30,6 +32,7 @@ public class VoiceFragment extends Fragment implements View.OnClickListener {
     private int mProgress = 50;
     private SoundPool mSoundPool;
     private HashMap<Integer, Integer> soundId = new HashMap<>();
+    private Vibrator vibrator;
 
     @Nullable
     @Override
@@ -39,7 +42,8 @@ public class VoiceFragment extends Fragment implements View.OnClickListener {
         bubbleSeekBar = view.findViewById(R.id.seekBar);
         iv_delete = view.findViewById(R.id.iv_delete);
         iv_add = view.findViewById(R.id.iv_add);
-
+        // 获得系统的Vibrator实例
+        vibrator = (Vibrator) getActivity().getSystemService(Service.VIBRATOR_SERVICE);
         initSoundPool();
 
 
@@ -54,8 +58,10 @@ public class VoiceFragment extends Fragment implements View.OnClickListener {
             public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
                 mProgress = progress;
                 if (progress == 0) {
+                    startVibrator();
                     mSoundPool.play(soundId.get(3), 1, 1, 0, 0, 1);
                 } else if (progress == 100) {
+                    startVibrator();
                     mSoundPool.play(soundId.get(4), 1, 1, 0, 0, 1);
                 }
             }
@@ -109,12 +115,13 @@ public class VoiceFragment extends Fragment implements View.OnClickListener {
                     isClick = false;
                     mIvPower.setImageResource(R.mipmap.iv_power_close);
                     mSoundPool.play(soundId.get(1), 1, 1, 0, 0, 1);
+                    startVibrator();
 
                 } else {
                     isClick = true;
                     mIvPower.setImageResource(R.mipmap.iv_power_open);
                     mSoundPool.play(soundId.get(2), 1, 1, 0, 0, 1);
-
+                    startVibrator();
                 }
                 break;
             case R.id.iv_delete:
@@ -151,5 +158,13 @@ public class VoiceFragment extends Fragment implements View.OnClickListener {
         if (mSoundPool != null) {
             mSoundPool.release();
         }
+    }
+
+    private void startVibrator() {
+        if (vibrator.hasVibrator() == false) {
+            Toast.makeText(getContext(), "当前设备没有振动器", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        vibrator.vibrate(new long[]{100, 200, 100, 200}, -1);
     }
 }

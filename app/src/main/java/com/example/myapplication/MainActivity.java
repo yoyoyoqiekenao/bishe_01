@@ -40,8 +40,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             switch (msg.what) {
                 case 1:
                     viewPager.setCurrentItem(0);
-
-
+                    break;
+                case 2:
+                    viewPager.setCurrentItem(1);
                     break;
                 default:
             }
@@ -188,8 +189,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void resetPage(MessageEvent s) {
         if (s.isLogin() == false) {
-            Log.d("xuwudi", "收到信息了1");
+
             mHandler.sendEmptyMessage(1);
+        } else {
+            mHandler.sendEmptyMessage(2);
         }
     }
 
