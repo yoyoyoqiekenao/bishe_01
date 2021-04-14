@@ -48,8 +48,13 @@ public class SetFragment extends Fragment implements View.OnClickListener, Popup
                 getActivity().finish();
                 break;
             case R.id.rl_exit:
-                backgroundAlpha(0.5f);
-                showDeletePop();
+                if (getContext().getSharedPreferences("isLogin", Context.MODE_PRIVATE).getBoolean("isLogin", false) == true) {
+                    backgroundAlpha(0.5f);
+                    showDeletePop();
+                } else {
+
+                }
+
 
                 break;
             case R.id.rl_about:

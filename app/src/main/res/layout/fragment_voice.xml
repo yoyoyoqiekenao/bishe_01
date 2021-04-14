@@ -22,8 +22,8 @@
             android:id="@+id/seekBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -31,8 +31,9 @@
 
         <ImageView
             android:id="@+id/iv_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="26dp"
             android:src="@mipmap/iv_delete"
             app:layout_constraintBottom_toBottomOf="@id/seekBar"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -40,8 +41,9 @@
 
         <ImageView
             android:id="@+id/iv_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="26dp"
             android:src="@mipmap/iv_add"
             app:layout_constraintBottom_toBottomOf="@id/seekBar"
             app:layout_constraintRight_toRightOf="parent"

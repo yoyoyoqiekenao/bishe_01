@@ -78,8 +78,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         viewPager.setAdapter(new MyAdapter(getSupportFragmentManager()));
         if (isLogin == true) {
             viewPager.setCurrentItem(1);
+            iv_user.setImageResource(R.mipmap.iv_user_uncheck);
+            iv_voice.setImageResource(R.mipmap.iv_voice_check);
+            iv_set.setImageResource(R.mipmap.iv_set_uncheck);
         } else {
             viewPager.setCurrentItem(0);
+            iv_user.setImageResource(R.mipmap.iv_user_check);
+            iv_voice.setImageResource(R.mipmap.iv_voice_uncheck);
+            iv_set.setImageResource(R.mipmap.iv_set_uncheck);
         }
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

@@ -27,7 +27,7 @@ public class VoiceFragment extends Fragment implements View.OnClickListener {
     private ImageView mIvPower, iv_delete, iv_add;
     private BubbleSeekBar bubbleSeekBar;
     private boolean isClick = false;
-    private int mProgress = 0;
+    private int mProgress = 50;
     private SoundPool mSoundPool;
     private HashMap<Integer, Integer> soundId = new HashMap<>();
 
@@ -118,20 +118,28 @@ public class VoiceFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.iv_delete:
-                if (mProgress == 0) {
-                    Toast.makeText(getContext(), "已经是最低音量了", Toast.LENGTH_SHORT).show();
+                if (isClick == true) {
+                    if (mProgress == 0) {
+                        Toast.makeText(getContext(), "已经是最低音量了", Toast.LENGTH_SHORT).show();
+                    } else {
+                        mProgress = mProgress - 1;
+                        bubbleSeekBar.setProgress(mProgress);
+                    }
                 } else {
-                    mProgress = mProgress - 1;
-                    bubbleSeekBar.setProgress(mProgress);
+
                 }
+
                 break;
             case R.id.iv_add:
-                if (mProgress == 100) {
-                    Toast.makeText(getContext(), "已经是最高音量了", Toast.LENGTH_SHORT).show();
-                } else {
-                    mProgress = mProgress + 1;
-                    bubbleSeekBar.setProgress(mProgress);
+                if (isClick == true) {
+                    if (mProgress == 100) {
+                        Toast.makeText(getContext(), "已经是最高音量了", Toast.LENGTH_SHORT).show();
+                    } else {
+                        mProgress = mProgress + 1;
+                        bubbleSeekBar.setProgress(mProgress);
+                    }
                 }
+
                 break;
             default:
         }
