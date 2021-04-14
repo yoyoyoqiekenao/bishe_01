@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -41,7 +42,8 @@ public class VoiceFragment extends Fragment implements View.OnClickListener {
 
         initSoundPool();
 
-        bubbleSeekBar.setProgress(0);
+
+        bubbleSeekBar.setProgress(50);
         bubbleSeekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
             @Override
             public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
@@ -67,6 +69,17 @@ public class VoiceFragment extends Fragment implements View.OnClickListener {
         mIvPower.setOnClickListener(this);
         iv_add.setOnClickListener(this);
         iv_delete.setOnClickListener(this);
+
+        bubbleSeekBar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (isClick == false) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
         return view;
     }
 
@@ -96,10 +109,12 @@ public class VoiceFragment extends Fragment implements View.OnClickListener {
                     isClick = false;
                     mIvPower.setImageResource(R.mipmap.iv_power_close);
                     mSoundPool.play(soundId.get(1), 1, 1, 0, 0, 1);
+
                 } else {
                     isClick = true;
                     mIvPower.setImageResource(R.mipmap.iv_power_open);
                     mSoundPool.play(soundId.get(2), 1, 1, 0, 0, 1);
+
                 }
                 break;
             case R.id.iv_delete:

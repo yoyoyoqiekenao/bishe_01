@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView iv_user, iv_voice, iv_set;
     private ViewPager viewPager;
 
+    private Boolean isLogin;
+
     //创建一个保存Fragment对象的集合
     private List<Fragment> mList = new ArrayList<>();
     private Handler mHandler = new Handler() {
@@ -47,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     };
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         ImmersionBar.with(this).statusBarColor(R.color.barcolor).init();
 
+        isLogin = getIntent().getBooleanExtra("isLogin", false);
         rl_user = findViewById(R.id.rl_user);
         rl_voice = findViewById(R.id.rl_voice);
         rl_set = findViewById(R.id.rl_set);
@@ -72,8 +74,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mList.add(new VoiceFragment());
         mList.add(new SetFragment());
 
-        viewPager.setOffscreenPageLimit(3);
+        //viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(new MyAdapter(getSupportFragmentManager()));
+        if (isLogin == true) {
+            viewPager.setCurrentItem(1);
+        } else {
+            viewPager.setCurrentItem(0);
+        }
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

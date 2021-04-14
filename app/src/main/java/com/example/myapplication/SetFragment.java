@@ -24,7 +24,7 @@ public class SetFragment extends Fragment implements View.OnClickListener, Popup
     private TextView tv_exit;
 
     private RelativeLayout rl_exit, rl_about, rootView;
-    private PopupWindow mPop;
+    private PopupWindow mPop, mPop_delete;
 
     @Nullable
     @Override
@@ -48,19 +48,46 @@ public class SetFragment extends Fragment implements View.OnClickListener, Popup
                 getActivity().finish();
                 break;
             case R.id.rl_exit:
-                SharedPreferences sp = getContext().getSharedPreferences("isLogin", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putBoolean("isLogin", false);
-                editor.putString("name", "");
-                editor.commit();
-                EventBus.getDefault().post(new MessageEvent(false));
+                backgroundAlpha(0.5f);
+                showDeletePop();
+
                 break;
             case R.id.rl_about:
                 backgroundAlpha(0.5f);
                 showPop();
                 break;
+            case R.id.rl_yes:
+                SharedPreferences sp = getContext().getSharedPreferences("isLogin", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putBoolean("isLogin", false);
+                editor.putString("name", "");
+                editor.commit();
+                mPop_delete.dismiss();
+                EventBus.getDefault().post(new MessageEvent(false));
+                break;
+            case R.id.rl_no:
+                mPop_delete.dismiss();
+                break;
             default:
         }
+    }
+
+    private void showDeletePop() {
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.pop_delete, null);
+        mPop_delete = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        RelativeLayout rlYes = view.findViewById(R.id.rl_yes);
+        RelativeLayout rlNo = view.findViewById(R.id.rl_no);
+
+        rlYes.setOnClickListener(this);
+        rlNo.setOnClickListener(this);
+
+        mPop_delete.setAnimationStyle(R.style.popupwindow_anim_style);
+        mPop_delete.setFocusable(true);
+        mPop_delete.setBackgroundDrawable(new BitmapDrawable());
+        mPop_delete.setOutsideTouchable(true);
+        mPop_delete.setOnDismissListener(this);
+        mPop_delete.showAtLocation(rootView, Gravity.CENTER, 0, 0);
     }
 
     private void showPop() {
