@@ -144,7 +144,7 @@ public class UserFragment extends Fragment implements View.OnClickListener, Popu
         if (0 == type) {
             tvContent.setText("是否使用QQ登陆？");
         } else {
-            tvContent.setText("是佛使用微信登陆？");
+            tvContent.setText("是否使用微信登陆？");
         }
 
         rlYes.setOnClickListener(this);

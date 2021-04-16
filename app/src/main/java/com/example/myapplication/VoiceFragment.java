@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
 import android.app.Service;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -13,13 +15,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.xw.repo.BubbleSeekBar;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +30,7 @@ import java.util.Map;
 public class VoiceFragment extends Fragment implements View.OnClickListener {
 
     private ImageView mIvPower, iv_delete, iv_add;
-    private BubbleSeekBar bubbleSeekBar;
+    private SeekBar bubbleSeekBar;
     private boolean isClick = false;
     private int mProgress = 50;
     private SoundPool mSoundPool;
@@ -44,33 +47,35 @@ public class VoiceFragment extends Fragment implements View.OnClickListener {
         iv_add = view.findViewById(R.id.iv_add);
         // 获得系统的Vibrator实例
         vibrator = (Vibrator) getActivity().getSystemService(Service.VIBRATOR_SERVICE);
+
         initSoundPool();
 
 
         bubbleSeekBar.setProgress(50);
-        bubbleSeekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
+        bubbleSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
             }
 
             @Override
-            public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
-                mProgress = progress;
-                if (progress == 0) {
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                mProgress = seekBar.getProgress();
+                if (seekBar.getProgress() == 0) {
                     startVibrator();
                     mSoundPool.play(soundId.get(3), 1, 1, 0, 0, 1);
-                } else if (progress == 100) {
+                } else if (seekBar.getProgress() == 100) {
                     startVibrator();
                     mSoundPool.play(soundId.get(4), 1, 1, 0, 0, 1);
                 }
             }
-
-            @Override
-            public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
-
-            }
         });
+
 
         mIvPower.setOnClickListener(this);
         iv_add.setOnClickListener(this);
@@ -127,7 +132,7 @@ public class VoiceFragment extends Fragment implements View.OnClickListener {
             case R.id.iv_delete:
                 if (isClick == true) {
                     if (mProgress == 0) {
-                        Toast.makeText(getContext(), "已经是最低音量了", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "已经是最低功率了", Toast.LENGTH_SHORT).show();
                     } else {
                         mProgress = mProgress - 1;
                         bubbleSeekBar.setProgress(mProgress);
@@ -140,7 +145,7 @@ public class VoiceFragment extends Fragment implements View.OnClickListener {
             case R.id.iv_add:
                 if (isClick == true) {
                     if (mProgress == 100) {
-                        Toast.makeText(getContext(), "已经是最高音量了", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "已经是最高功率了", Toast.LENGTH_SHORT).show();
                     } else {
                         mProgress = mProgress + 1;
                         bubbleSeekBar.setProgress(mProgress);

@@ -9,6 +9,8 @@ import android.os.Looper;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.gyf.immersionbar.ImmersionBar;
+
 public class SplashActivity extends AppCompatActivity {
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
@@ -25,7 +27,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
+        ImmersionBar.with(this).init();
         SharedPreferences sp = getSharedPreferences("isLogin", MODE_PRIVATE);
         isLogin = sp.getBoolean("isLogin", false);
 

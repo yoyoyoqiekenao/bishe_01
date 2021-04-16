@@ -14,26 +14,42 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:layout_below="@id/iv_power"
-        android:layout_marginTop="20dp">
+        android:layout_marginLeft="26dp"
+        android:layout_marginTop="75dp"
+        android:layout_marginRight="26dp"
+        android:background="@drawable/bg_fefefe_5"
+        android:progressDrawable="@color/white"
+        android:splitTrack="false">
 
-        <com.xw.repo.BubbleSeekBar
-            android:id="@+id/seekBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <ImageView
+            android:id="@+id/bg_thumb"
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_thumb"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></com.xw.repo.BubbleSeekBar>
+            app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="43dp"
+            android:layout_marginRight="43dp"
+            android:progressDrawable="@color/color_translate"
+            android:thumb="@mipmap/thumb"
+            app:layout_constraintLeft_toLeftOf="@id/bg_thumb"
+            app:layout_constraintRight_toRightOf="@id/bg_thumb"
+            app:layout_constraintTop_toTopOf="parent"></SeekBar>
+
 
         <ImageView
             android:id="@+id/iv_delete"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="26dp"
+            android:layout_marginLeft="6dp"
             android:src="@mipmap/iv_delete"
             app:layout_constraintBottom_toBottomOf="@id/seekBar"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -43,7 +59,7 @@
             android:id="@+id/iv_add"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginRight="26dp"
+            android:layout_marginRight="6dp"
             android:src="@mipmap/iv_add"
             app:layout_constraintBottom_toBottomOf="@id/seekBar"
             app:layout_constraintRight_toRightOf="parent"
