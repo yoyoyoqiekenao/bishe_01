@@ -17,7 +17,7 @@
         android:layout_height="70dp"
         android:layout_below="@id/iv_power"
         android:layout_marginLeft="26dp"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="45dp"
         android:layout_marginRight="26dp"
         android:background="@drawable/bg_fefefe_5"
         android:progressDrawable="@color/white"
